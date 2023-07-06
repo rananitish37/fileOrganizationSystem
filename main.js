@@ -1,8 +1,9 @@
+#!/usr/bin/env node //it tell this script should be run in which environment
 // #todo
 // [*]help
-// []organize
-// []Tree
-// []global
+// [*]organize
+// [*]Tree
+// [*]global
 // []cover some good practice
 
 let inputArr=process.argv.slice(2);
@@ -35,7 +36,7 @@ switch(command){
 function treeFn(dirPath){
     // let destPath;
     if(dirPath==undefined){
-        console.log("kindly enter the path");
+        treeHelper(process.cwd(),"");
         return;
     }else{
         let doesExist=fs.existsSync(dirPath);
@@ -52,16 +53,22 @@ function treeHelper(dirPath,indent){
     let isFile=fs.lstatSync(dirPath).isFile();
     if(isFile==true){
         let fileName=path.basename(dirPath);
-        console.log(indent+"↪ "+fileName);
+        console.log(indent+"├── "+fileName);
     }else{
-
+        let dirName=path.basename(dirPath);
+        console.log(indent+"└── "+dirName);
+        let childerens=fs.readdirSync(dirPath);
+        for(let i=0;i<childerens.length;i++){
+            let childPath=path.join(dirPath);
+            treeHelper(childPath,indent+"\t");
+        }
     }
 }
 function organizeFn(dirPath){
     // 1. input -> directory path given
     let destPath;
     if(dirPath==undefined){
-        console.log("kindly enter the path");
+        destPath=process.cwd();
         return;
     }else{
         let doesExist=fs.existsSync(dirPath);
