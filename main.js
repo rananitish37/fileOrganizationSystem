@@ -33,7 +33,29 @@ switch(command){
 }
 
 function treeFn(dirPath){
-    console.log("tree command implemented for", dirPath);
+    // let destPath;
+    if(dirPath==undefined){
+        console.log("kindly enter the path");
+        return;
+    }else{
+        let doesExist=fs.existsSync(dirPath);
+        if(doesExist){
+            treeHelper(dirPath,"");
+        }else{
+            console.log("Kindly enter the correct path");
+            return;
+        }
+    }
+}
+function treeHelper(dirPath,indent){
+    //is file or folder
+    let isFile=fs.lstatSync(dirPath).isFile();
+    if(isFile==true){
+        let fileName=path.basename(dirPath);
+        console.log(indent+"↪ "+fileName);
+    }else{
+
+    }
 }
 function organizeFn(dirPath){
     // 1. input -> directory path given
